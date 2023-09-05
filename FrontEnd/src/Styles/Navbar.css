@@ -1,0 +1,57 @@
+/* Navbar.css */
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #333;
+  color: white;
+}
+
+.logo {
+  margin: 0;
+  font-size: 24px;
+  text-decoration: none;
+  color: aliceblue;
+}
+
+.logo:hover {
+  color: #30a1bd;
+  cursor: pointer;
+}
+
+#add-item {
+  display: inline-block;
+  padding: 8px 20px;
+  color: rgb(255, 254, 254);
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background-color 0.3s ease-in-out;
+}
+
+#add-item:hover {
+border-color: aliceblue;
+}
+
+#menu {
+  display: flex;
+  gap: 20px;
+}
+
+#menu a {
+  text-decoration: none;
+  color: white;
+  padding: 8px 15px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  transition: border-color 0.3s ease-in-out;
+}
+
+#menu a:hover {
+  border-color: white;
+}
