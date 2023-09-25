@@ -1,24 +1,52 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom';
-import '../Styles/Navbar.css';
-
+import React from "react";
+import { NavLink } from "react-router-dom";
+import { useAuth } from "../Components/Authentication";
+import "../Styles/Navbar.css";
 
 const Navbar = () => {
-  return (
-    <div className='navbar'>
-      <NavLink to='/' className='logo'>ROOM HUNT</NavLink>
-    <div>
-    <NavLink id='add-item' to='/addRoom' variant="outlined">Add Room</NavLink>
-    </div>
-    <div id='menu'>
-    <NavLink to='/contact' variant="outlined">Contact Us</NavLink>
-    <NavLink to='/about' variant="outlined">About Us</NavLink>
-    <NavLink to='/login' variant="outlined">Login</NavLink>
-    <NavLink to='/signUp' variant="outlined">SignUp</NavLink>
-    
-    </div>
-    </div>
-  )
-}
+  const { isAuthenticated, logout } = useAuth();
 
-export default Navbar
+  return (
+    <div className="navbar">
+      <NavLink to="/" className="logo">
+        ROOM HUNT
+      </NavLink>
+      <div className="center-nav-item">
+        <NavLink to="/addRoom" className="nav-link add-room">
+          Add Room
+        </NavLink>
+      </div>
+      <div className="right-menu">
+        <NavLink to="/contact" className="nav-link">
+          Contact Us
+        </NavLink>
+        <NavLink to="/about" className="nav-link">
+          About Us
+        </NavLink>
+
+        {console.log(isAuthenticated)}
+        {isAuthenticated ? (
+          <>
+            <NavLink to="/profile" className="nav-link">
+              Profile
+            </NavLink>
+            <button onClick={logout} className="logout-button">
+              Logout
+            </button>
+          </>
+        ) : (
+          <>
+            <NavLink to="/login" className="nav-link">
+              Login
+            </NavLink>
+            <NavLink to="/signup" className="nav-link">
+              Signup
+            </NavLink>
+          </>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default Navbar;

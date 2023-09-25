@@ -1,67 +1,80 @@
-import React, { useState } from 'react';
-import { NavLink, Navigate, useNavigate } from 'react-router-dom';
-import Validation from '../Validation/LoginValidation';
+import React, { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import axios from "axios"; // Added the import for axios
+import Validation from "../Validation/LoginValidation";
+import { useAuth } from "../Components/Authentication";
+
 const LogIn = () => {
+  const { isAuthenticated, logout, login } = useAuth();
 
   const [values, setValues] = useState({
-    username: '',
-    password: '',
-  })
-  const Navigate = useNavigate();
+    email: "",
+    password: "",
+  });
 
-  const [errors, setErrors] = useState({})
+  const navigate = useNavigate(); // Changed variable name to navigate
+
+  const [errors, setErrors] = useState({});
+
   const handleChange = (event) => {
-    setValues(prev => ({...prev, [event.target.name]: [event.target.value]}))
-  }
+    setValues((prev) => ({
+      ...prev,
+      [event.target.name]: event.target.value, // Removed extra square brackets
+    }));
+  };
 
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    setErrors(Validation(values));
-    if(errors.username === "" && errors.password === "")
-    {
-      axios.post('http://localhost:80/login', values)
-      .then(res => {
-        if(res.data === "Success") {
-          Navigate('/');
-        }
-        else {
-            alert("No record existed");
-        }
-      })
-      .catch(err => console.log(err));
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const validationErrors = Validation(values);
+    setErrors(validationErrors);
+
+    if (!validationErrors.email && !validationErrors.password) {
+      try {
+        const { data } = await axios.post(
+          "http://localhost:5713/login",
+          values
+        );
+
+        console.log(data);
+        login();
+        navigate("/");
+      } catch (error) {
+        // Handle network errors or other unexpected issues
+        alert(error.message);
+      }
     }
-    
-
-  }
+  };
 
   return (
     <div>
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Username:</label>
-        <input
-          type="text"
-          name="username"
-          placeholder='username'  
-          autoComplete='off'  
-          onChange={handleChange}   
-        />
-          {errors.username && <span className='text-danger'>{errors.username}</span>}  
-      </div>
-      <div>
-        <label>Password:</label>
-        <input
-          type="password"
-          name="password"
-          placeholder='******'
-          onChange={handleChange} 
-        />
-          {errors.password && <span className='text-danger'>{errors.password}</span>}  
-      </div>
-      <button type="submit">LogIn</button>
-      <p>If you don't have an account</p><NavLink to='/signUp'>SignUp</NavLink>
-    </form>
-    
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Email:</label>
+          <input
+            type="text"
+            name="email"
+            placeholder="email"
+            autoComplete="off"
+            onChange={handleChange}
+          />
+          {errors.email && <span className="text-danger">{errors.email}</span>}
+        </div>
+        <div>
+          <label>Password:</label>
+          <input
+            type="password"
+            name="password"
+            placeholder="******"
+            onChange={handleChange}
+          />
+          {errors.password && (
+            <span className="text-danger">{errors.password}</span>
+          )}
+        </div>
+        <button type="submit">LogIn</button>
+        <p>If you don't have an account</p>
+        <NavLink to="/signUp">SignUp</NavLink>
+      </form>
     </div>
   );
 };

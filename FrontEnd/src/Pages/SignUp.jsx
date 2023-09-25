@@ -1,51 +1,102 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import Validation from "../Validation/SignupValidation";
-import axios from "axios";
+import Axios from "axios";
 
 const SignUp = () => {
   const [values, setValues] = useState({
-    username: "",
+    full_name: "",
     email: "",
+    contact_number: "",
     password: "",
   });
-  const navigate = useNavigate();
 
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
+
   const handleChange = (event) => {
-    setValues((prev) => ({
-      ...prev,
-      [event.target.name]: [event.target.value],
+    const { name, value } = event.target;
+    setValues((prevValues) => ({
+      ...prevValues,
+      [name]: value,
     }));
   };
 
-  const handleSubmit = (event) => {
+  // Update the handleSubmit function
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    setErrors(Validation(values));
-    if (errors.username === "" && errors.email === "" && errors.password === ""
-    ) {
-      axios.post("http://localhost:5174/signUp", values)
-        .then(res => {
-          navigate('/');
-        })
-        .catch((err) => console.log(err));
+    const validationErrors = validateForm(values);
+    setErrors(validationErrors);
+
+    if (Object.keys(validationErrors).length === 0) {
+      try {
+        const { data } = await Axios.post(
+          "http://localhost:5713/signUp",
+          values
+        );
+        localStorage.setItem("userData", JSON.stringify(data.user));
+        // console.log(data);
+        navigate("/");
+      } catch (error) {
+        // alert(error.message);
+      }
     }
+  };
+
+  const validateForm = (formValues) => {
+    const errors = {};
+
+    // Validate full_name
+    if (!formValues.full_name.trim()) {
+      errors.full_name = "Name is required";
+    }
+
+    // Validate email
+    if (!formValues.email.trim()) {
+      errors.email = "Email is required";
+    } else if (!isValidEmail(formValues.email)) {
+      errors.email = "Invalid email format";
+    }
+
+    // Validate contact_number
+    if (!formValues.contact_number.trim()) {
+      errors.contact_number = "Contact Number is required";
+    } else if (!isValidPhoneNumber(formValues.contact_number)) {
+      errors.contact_number = "Invalid contact number format";
+    }
+
+    // Validate password
+    if (!formValues.password) {
+      errors.password = "Password is required";
+    }
+
+    return errors;
+  };
+
+  const isValidEmail = (email) => {
+    // Implement email validation logic here
+    return true; // You can use a library like 'validator' for more robust validation
+  };
+
+  const isValidPhoneNumber = (phoneNumber) => {
+    // Implement phone number validation logic here
+    return true; // You can use a library like 'validator' for more robust validation
   };
 
   return (
     <div>
-      <form onSubmit={handleSubmit}> 
+      <form onSubmit={handleSubmit}>
         <div>
-          <label>Username:</label>
+          <label>Name:</label>
           <input
             type="text"
-            name="username"
-            placeholder="username"
+            name="full_name"
+            placeholder="Name"
             autoComplete="off"
             onChange={handleChange}
+            value={values.full_name}
           />
-          {errors.username && (
-            <span className="text-danger">{errors.username}</span>
+          {errors.full_name && (
+            <span className="text-danger">{errors.full_name}</span>
           )}
         </div>
         <div>
@@ -56,8 +107,23 @@ const SignUp = () => {
             placeholder="example@gmail.com"
             autoComplete="off"
             onChange={handleChange}
+            value={values.email}
           />
           {errors.email && <span className="text-danger">{errors.email}</span>}
+        </div>
+        <div>
+          <label>Contact Number:</label>
+          <input
+            type="text"
+            name="contact_number"
+            placeholder="Contact Number"
+            autoComplete="off"
+            onChange={handleChange}
+            value={values.contact_number}
+          />
+          {errors.contact_number && (
+            <span className="text-danger">{errors.contact_number}</span>
+          )}
         </div>
         <div>
           <label>Password:</label>
@@ -66,14 +132,15 @@ const SignUp = () => {
             name="password"
             placeholder="******"
             onChange={handleChange}
+            value={values.password}
           />
           {errors.password && (
             <span className="text-danger">{errors.password}</span>
           )}
         </div>
-        <button type="submit">SignUp</button>
-        <p>If you have already an account</p>
-        <NavLink to="/login">LogIn</NavLink>
+        <button type="submit">Sign Up</button>
+        <p>If you already have an account</p>
+        <NavLink to="/login">Log In</NavLink>
       </form>
     </div>
   );

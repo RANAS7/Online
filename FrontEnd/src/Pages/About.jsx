@@ -1,9 +1,19 @@
-import React from 'react'
+import React from 'react';
+import '../Styles/About.css'
 
-const About = () => {
+const AboutUs = () => {
   return (
-    <h1>About</h1>
-  )
-}
+    <div className="about-us">
+      <h1>About Us</h1>
+      <p>
+        Welcome to our Online Room Searching System! We are dedicated to
+        providing a convenient and efficient platform for users to search for
+        rooms and apartments.
+      </p>
 
-export default About
+      {/* Add other sections or components about your team or company */}
+    </div>
+  );
+};
+
+export default AboutUs;

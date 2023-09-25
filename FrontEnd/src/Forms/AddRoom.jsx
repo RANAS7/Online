@@ -1,122 +1,184 @@
-import React, { useState, useRef } from 'react';
-import '../Styles/AddRoom.css'
-import { TextField, MenuItem } from '@mui/material';
+import React, { useState, useRef } from "react";
+import { TextField, MenuItem } from "@mui/material";
+import Axios from "axios"; // Import Axios for making HTTP requests
+import "../Styles/AddRoom.css";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useAuth } from "../Components/Authentication";
 
-const AddRoom = ({onSubmit}) => {
-  const inputRef = useRef(null);
-  const [images, setImages] =useState("");
+const AddRoom = () => {
+  const { isAuthenticated, logout } = useAuth();
+
+  const hiddenFileInput = useRef(null);
+  const [images, setImages] = useState(null);
 
   const [formData, setFormData] = useState({
-    title: '',
-    image: '',
-    description: '',
-    category: ''
-  })
+    title: "",
+    description: "",
+    category: "Room", // Default category
+  });
+
+  const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
   const categories = [
     {
-      value: 'Room',
-      label: 'Room',
+      value: "Room",
+      label: "Room",
     },
     {
-      value: 'Apartment',
-      label: 'Apartment',
-    }
+      value: "Apartment",
+      label: "Apartment",
+    },
   ];
-  
-  const [errors, setErrors] = useState({})
 
   const handleChange = (e) => {
-    const {name, value} = e.target;
-    const file = e.taget.file[0];
-    console.log(file)
+    const { name, value, files } = e.target;
+
+    if (name === "image" && files.length > 0) {
+      const file = files[0];
+      setImages(file);
+    }
+
     setFormData({
-        ...formData, [name] : value
-    })
-  }
+      ...formData,
+      [name]: value,
+    });
+  };
 
-  const handleImageClick =(e)=>{
-    inputRef.current.click();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-  }
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    const validationErrors = {}
-    if(!formData.title.trim()) {
-        validationErrors.username = "Title is required"
+    const validationErrors = {};
+
+    if (!formData.title.trim()) {
+      validationErrors.title = "Title is required";
     }
 
-    if(!formData.image.trim()) {
-        validationErrors.image = "Image is required"
+    if (!images) {
+      validationErrors.image = "Image is required";
     }
 
-    if(!formData.description.trim()) {
-        validationErrors.description = "Description is required"
-    } 
-
-    if(formData.category.trim()) {
-        validationErrors.category = "Category is required"
+    if (!formData.description.trim()) {
+      validationErrors.description = "Description is required";
     }
 
-    setErrors(validationErrors)
-
-    if(Object.keys(validationErrors).length === 0) {
-        alert("Form Submitted successfully")
+    if (!formData.category.trim()) {
+      validationErrors.category = "Category is required";
     }
 
-  }
+    setErrors(validationErrors);
+
+    if (Object.keys(validationErrors).length === 0) {
+      // Form is valid, you can submit it here
+      console.log("Form Data:", formData);
+      try {
+        const { data } = await Axios.post(
+          "http://localhost:5713/addRoom",
+          formData // Use formData here
+        );
+        navigate("/");
+        localStorage.setItem("userData", JSON.stringify(data.user));
+        alert("Room is psted successfully");
+        // console.log(data);
+        // You may want to add navigation logic here
+      } catch (error) {
+        // Handle the error
+      }
+    }
+  };
+
+  const handleClick = () => {
+    hiddenFileInput.current.click();
+  };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className='addRoom'>
-        <TextField
-           label='Title'
-          name="title" 
-          autoComplete='off'  
-          onChange={handleChange}   
-        />
-          {errors.title && <span>{errors.title}</span>}  
-      </div>
-      <div onClick={handleImageClick}>
-        <label>Image:</label>
-        <img src="./../upload.png" alt="upload image" />
-        <input
-        className='uploadImage'
-        type="file"
-        name="image"
-        ref={inputRef}
-        accept="image/*"
-        onChange={handleImageClick}
-        />
-        {errors.image && <span>{errors.image}</span>}  
-      </div>
-      <div>
-        <TextField
-        label='Description'
-        name='description'
-        autoComplet='off'
-        onChange={handleChange}
-        />
-          {errors.description && <span>{errors.description}</span>}  
-      </div>
-      <div>
-      <TextField
-          id="outlined-select-category"
-          select
-          label="Category"
-          defaultValue="Room"
-          helperText="Please select your category"
-        >
-          {categories.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </TextField>
-          {errors.confirmPassword && <span>{errors.confirmPassword}</span>}  
-      </div>
-      <button type="submit">Submit</button>
-    </form>
+    <>
+      {isAuthenticated ? (
+        <>
+          <form onSubmit={handleSubmit}>
+            <div className="addRoom">
+              <TextField
+                label="Title"
+                name="title"
+                autoComplete="off"
+                onChange={handleChange}
+              />
+              {errors.title && <span className="error">{errors.title}</span>}
+            </div>
+            <div className="box-decoration">
+              <label
+                htmlFor="image-upload-input"
+                className="image-upload-label"
+              >
+                {/* {images ? images.name : 'Choose an image'} */}
+              </label>
+              <div onClick={handleClick} style={{ cursor: "pointer" }}>
+                {images ? (
+                  <img
+                    src={URL.createObjectURL(images)}
+                    alt="upload image"
+                    className="img-display-after"
+                  />
+                ) : (
+                  <img
+                    src="./../upload.png"
+                    alt="upload image"
+                    className="img-display-before"
+                  />
+                )}
+
+                <input
+                  id="image-upload-input"
+                  type="file"
+                  name="image"
+                  onChange={handleChange}
+                  ref={hiddenFileInput}
+                  style={{ display: "none" }}
+                />
+              </div>
+              {errors.image && <span className="error">{errors.image}</span>}
+            </div>
+            <div>
+              <TextField
+                label="Description"
+                name="description"
+                autoComplete="off"
+                onChange={handleChange}
+              />
+              {errors.description && (
+                <span className="error">{errors.description}</span>
+              )}
+            </div>
+            <div>
+              <TextField
+                id="outlined-select-category"
+                select
+                label="Category"
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+                helperText="Please select your category"
+              >
+                {categories.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+              {errors.category && (
+                <span className="error">{errors.category}</span>
+              )}
+            </div>
+            <button type="submit">Submit</button>
+          </form>
+        </>
+      ) : (
+        <p>
+          Please you should login first <br />
+          <NavLink to="/login">Login</NavLink>
+        </p>
+      )}
+    </>
   );
 };
 
