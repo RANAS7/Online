@@ -30,9 +30,9 @@ const Navbar = () => {
             <NavLink to="/profile" className="nav-link">
               Profile
             </NavLink>
-            <button onClick={logout} className="logout-button">
+            <NavLink to="/" onClick={logout} className="logout-button">
               Logout
-            </button>
+            </NavLink>
           </>
         ) : (
           <>

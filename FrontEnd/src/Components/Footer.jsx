@@ -5,11 +5,12 @@ import { NavLink } from "react-router-dom";
 const Footer = () => {
   return (
     <div>
-      <footer className="footer p-10 bg-base-200 text-base-content">
-        <div>
-          <img src="./../Logo.png" />
+      <footer className="footer">
+        <div className="footer-logo">
+          <img src="./../Logo.png" alt="Company Logo" />
+          <span className="footer-logo-text">Room Hunt</span>
         </div>
-        <div>
+        <div className="footer-links">
           <span className="footer-title">Pages</span>
           <NavLink to="/" className="link link-hover">
             Home
@@ -20,6 +21,9 @@ const Footer = () => {
           <NavLink to="/about" className="link link-hover">
             About Us
           </NavLink>
+        </div>
+        <div className="footer-text">
+          <p className="footer-rights">© Online Room Searching System</p>
         </div>
       </footer>
     </div>

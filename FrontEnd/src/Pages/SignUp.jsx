@@ -29,10 +29,7 @@ const SignUp = () => {
 
     if (Object.keys(validationErrors).length === 0) {
       try {
-        const { data } = await Axios.post(
-          "http://localhost:5713/signUp",
-          values
-        );
+        const { data } = await Axios.post("http://localhost:/signUp", values);
         localStorage.setItem("userData", JSON.stringify(data.user));
         // console.log(data);
         navigate("/");

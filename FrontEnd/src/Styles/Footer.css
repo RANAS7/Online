@@ -1,42 +1,42 @@
+/* Footer.css */
+
 .footer {
+  background-color: #333; /* Set your desired background color */
+  color: #fff; /* Text color */
+  padding: 20px 0; /* Adjust the padding as needed */
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
-  bottom: 0;
-  width: 100%;
-  background-color: #333;
-  color: white;
 }
 
-.footer img {
-  width: 100px; /* Adjust the width as needed */
+.footer-logo img {
+  width: 50px; /* Adjust the logo size as needed */
+  height: 50px;
+  margin-right: 10px; /* Add some spacing between the logo and text */
 }
 
-.footer-title {
-  font-size: 1.2rem;
+.footer-logo-text {
+  font-size: 1.5rem; /* Adjust the font size as needed */
   font-weight: bold;
-  display: block;
-  margin-bottom: 10px;
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
 }
 
 .link {
-  color: white;
+  color: #fff; /* Link color */
   text-decoration: none;
-  margin-right: 20px;
-  transition: color 0.2s;
+  margin: 5px 0; /* Add spacing between links */
+  font-size: 1rem; /* Adjust the font size as needed */
 }
 
 .link:hover {
-  color: #f0f0f0;
+  text-decoration: underline; /* Underline on hover */
 }
 
-.link-hover {
-  padding-bottom: 2px;
-  border-bottom: 2px solid transparent;
-  transition: border-color 0.2s;
-}
-
-.link-hover:hover {
-  border-color: white;
+.footer-text {
+  text-align: right;
+  font-size: 0.8rem; /* Adjust the font size as needed */
 }
