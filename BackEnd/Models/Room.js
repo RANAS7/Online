@@ -15,8 +15,8 @@ const roomSchema = new mongoose.Schema({
     required: true,
   },
   image: {
-    type: String, // Assuming you store the image URL
-    required: true,
+    data: Buffer,
+    contentType: String, // Assuming you store the image URL
   },
 });
 
