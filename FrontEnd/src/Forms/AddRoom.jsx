@@ -72,24 +72,15 @@ const AddRoom = () => {
       // Form is valid, you can submit it here
       console.log("Form Data:", formData);
       try {
-        const formDataWithImage = new FormData();
-        formDataWithImage.append("title", formData.title);
-        formDataWithImage.append("description", formData.description);
-        formDataWithImage.append("category", formData.category);
-        formDataWithImage.append("image", images);
-
         const { data } = await Axios.post(
           "http://localhost:5713/addRoom",
-          formDataWithImage,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
+          formData // Use formData here
         );
         navigate("/");
         localStorage.setItem("userData", JSON.stringify(data.user));
-        alert("Room is posted successfully");
+        alert("Room is psted successfully");
+        // console.log(data);
+        // You may want to add navigation logic here
       } catch (error) {
         // Handle the error
       }

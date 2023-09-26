@@ -1,6 +1,5 @@
-const Room = require("../BackEnd/Models/Room");
 const User = require("../BackEnd/Models/User");
-const Contact = require("../BackEnd/Models/Contact"); // Corrected import name
+const Room = require("../BackEnd/Models/Room"); // Import the Room model
 const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
@@ -58,12 +57,10 @@ app.post("/signUp", async (req, res) => {
 
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
-  console.log(email, password);
+
   try {
     // Find the user by email
     const user = await User.findOne({ email });
-
-    console.log(user);
 
     if (!user) {
       return res.status(401).json({ message: "User not found" });
@@ -106,39 +103,13 @@ app.post("/addRoom", async (req, res) => {
 
 app.get("/getRooms", async (req, res) => {
   try {
-    const rooms = await Room.find();
+    const rooms = await Room.find(); // Use Room model to query the rooms
     res.json(rooms);
   } catch (err) {
     res.status(500).json({ error: "Internal server error" });
   }
 });
 
-const createContact = async (req, res) => {
-  try {
-    const contact = new Contact(req.body);
-    await contact.save();
-    res.status(201).json(contact);
-  } catch (error) {
-    res.status(400).json({ error: "Error creating contact" });
-  }
-};
-
-// Retrieve all contacts
-const getAllContacts = async (req, res) => {
-  try {
-    const contacts = await Contact.find();
-    res.status(200).json(contacts);
-  } catch (error) {
-    res.status(500).json({ error: "Error retrieving contacts" });
-  }
-};
-
-module.exports = {
-  createContact,
-  getAllContacts,
-};
-
-// Start your Express server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

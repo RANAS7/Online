@@ -31,14 +31,9 @@ const LogIn = () => {
     if (!validationErrors.email && !validationErrors.password) {
       try {
         const { data } = await axios.post(
-          "http://localhost:8000/login",
+          "http://localhost:5713/login",
           values
         );
-
-        if (data._id) {
-          // Save the user ID in local storage
-          localStorage.setItem("userId", data._id);
-        }
 
         console.log(data);
         login();

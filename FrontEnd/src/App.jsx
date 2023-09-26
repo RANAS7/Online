@@ -9,7 +9,6 @@ import Footer from "./Components/Footer";
 import Login from "./Pages/Login";
 import SignUp from "./Pages/SignUp";
 import Rooms_Overview from "./Components/Rooms_Overview";
-import UserDetails from "../src/Pages/Profiles";
 
 const App = () => {
   return (
@@ -24,7 +23,6 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/signUp" element={<SignUp />} />
           <Route path="/roomOverview" element={<Rooms_Overview />} />
-          <Route path="/profile" element={<UserDetails />} />
         </Routes>
         <Footer />
       </Router>
