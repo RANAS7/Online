@@ -1,5 +1,3 @@
-/* Navbar.css */
-
 /* Base styles for the navbar */
 .navbar {
   display: flex;
@@ -8,6 +6,10 @@
   background-color: #333;
   color: #fff;
   padding: 10px 20px;
+  position: fixed;
+  width: 96%;
+  top: 0%;
+  width: 100%;
 }
 
 .logo {
@@ -95,4 +97,12 @@
   .nav-link {
     margin: 5px 0;
   }
+}
+.right-menu {
+  margin-right: 50px;
+  display: flex;
+  gap: 40px;
+}
+.add-btn {
+  margin-left: 300px;
 }

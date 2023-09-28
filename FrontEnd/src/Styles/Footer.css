@@ -2,14 +2,19 @@
 
 .footer {
   background-color: #333;
-  position: fixed;
-  bottom: 0;
   width: 100%;
   display: flex;
-  /* width: 100%; */
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
+  padding: 10px 20px; /* Add padding for spacing */
+  color: #fff;
 }
+
+.all {
+  margin-top: 30px;
+  text-align: center;
+}
+
 .footer-logo {
   display: flex;
   align-items: center;
@@ -28,7 +33,7 @@
 
 .footer-links {
   display: flex;
-  flex-direction: column;
+  gap: 50px;
 }
 
 .link {
@@ -36,14 +41,27 @@
   text-decoration: none;
   margin: 5px 0; /* Add spacing between links */
   font-size: 1rem; /* Adjust the font size as needed */
+  transition: color 0.3s; /* Add a smooth color transition on hover */
 }
 
 .link:hover {
+  color: #00bcd4; /* Change link color on hover */
   text-decoration: underline; /* Underline on hover */
 }
 
 .footer-text {
-  /* text-align: right; */
   font-size: 0.8rem; /* Adjust the font size as needed */
-  color: #fff;
+}
+
+/* Add styles for responsive design if needed */
+@media (max-width: 768px) {
+  .footer {
+    flex-direction: column;
+    text-align: center;
+    padding: 10px;
+  }
+
+  .footer-logo {
+    margin-bottom: 10px;
+  }
 }

@@ -14,6 +14,7 @@ const AddRoom = () => {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
+    contact: "",
     category: "Room", // Default category
   });
 
@@ -64,6 +65,10 @@ const AddRoom = () => {
 
     if (!formData.category.trim()) {
       validationErrors.category = "Category is required";
+    }
+
+    if (!formData.contact.trim()) {
+      validationErrors.contact = "Contact is required";
     }
 
     setErrors(validationErrors);
@@ -140,6 +145,17 @@ const AddRoom = () => {
             </div>
             <div>
               <TextField
+                label="Owners Contact"
+                name="contact"
+                autoComplete="off"
+                onChange={handleChange}
+              />
+              {errors.contact && (
+                <span className="error">{errors.contact}</span>
+              )}
+            </div>
+            <div>
+              <TextField
                 label="Description"
                 name="description"
                 autoComplete="off"
@@ -174,6 +190,9 @@ const AddRoom = () => {
         </>
       ) : (
         <p>
+          <br />
+          <br />
+          <br />
           Please you should login first <br />
           <NavLink to="/login">Login</NavLink>
         </p>

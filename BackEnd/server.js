@@ -5,6 +5,7 @@ const morgan = require("morgan");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const Contact = require("./Models/Contact");
 
 const app = express();
 const port = process.env.PORT || 5713;
@@ -98,6 +99,30 @@ app.post("/addRoom", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
+  }
+});
+
+app.post("/contact", async (req, res) => {
+  try {
+    // Check if a user with the same email already exists
+    const newMessage = new Contact({
+      first_name: req.body.first_name,
+      last_name: req.body.last_name,
+      email: req.body.email,
+      phone_number: req.body.phone_number,
+      message: req.body.message,
+    });
+
+    await newMessage.save();
+
+    console.log("Saved to the database...");
+
+    res
+      .status(200)
+      .json({ message: "Message is sent successfully", contact: newMessage });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server Error" });
   }
 });
 

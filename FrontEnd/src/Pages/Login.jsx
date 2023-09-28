@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import axios from "axios"; // Added the import for axios
 import Validation from "../Validation/LoginValidation";
 import { useAuth } from "../Components/Authentication";
+import "../Styles/Login.css";
 
 const LogIn = () => {
   const { isAuthenticated, logout, login } = useAuth();
@@ -46,8 +47,9 @@ const LogIn = () => {
   };
 
   return (
-    <div>
+    <div className="all">
       <form onSubmit={handleSubmit}>
+        <div>SignIn to Your Account</div>
         <div>
           <label>Email:</label>
           <input

@@ -8,12 +8,9 @@ const Navbar = () => {
 
   return (
     <div className="navbar">
-      <NavLink to="/" className="logo">
-        ROOM HUNT
-      </NavLink>
-      <div className="center-nav-item">
-        <NavLink to="/addRoom" className="nav-link add-room">
-          Add Room
+      <div>
+        <NavLink to="/" className="logo">
+          ROOM HUNT
         </NavLink>
       </div>
       <div className="right-menu">
@@ -44,6 +41,11 @@ const Navbar = () => {
             </NavLink>
           </>
         )}
+        <div className="add-btn">
+          <NavLink to="/addRoom" className="nav-link add-room">
+            Add Room
+          </NavLink>
+        </div>
       </div>
     </div>
   );

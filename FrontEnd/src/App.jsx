@@ -9,21 +9,26 @@ import Footer from "./Components/Footer";
 import Login from "./Pages/Login";
 import SignUp from "./Pages/SignUp";
 import Rooms_Overview from "./Components/Rooms_Overview";
+import "../src/my.css";
 
 const App = () => {
   return (
-    <div>
+    <div className="all">
       <Router>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/addRoom" element={<AddRoom />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signUp" element={<SignUp />} />
-          <Route path="/roomOverview" element={<Rooms_Overview />} />
-        </Routes>
+        <div className="Nav-all">
+          <Navbar />
+        </div>
+        <div className="hey">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/addRoom" element={<AddRoom />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signUp" element={<SignUp />} />
+            <Route path="/roomOverview" element={<Rooms_Overview />} />
+          </Routes>
+        </div>
         <Footer />
       </Router>
     </div>

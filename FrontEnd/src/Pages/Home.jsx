@@ -21,7 +21,9 @@ const Home = () => {
     .filter((room) => room.category === "Room")
     .map((room, index) => (
       <div key={index} className="room-card">
-        {/* <div>{room.image}</div> */}
+        <div>
+          <img src="Room1.jpg" />
+        </div>
         <h1 className="room-title">{room.title}</h1>
         <p className="room-description">{room.description}</p>
         <div className="room-category">
@@ -38,7 +40,9 @@ const Home = () => {
     .filter((room) => room.category === "Apartment")
     .map((room, index) => (
       <div key={index} className="room-card">
-        {/* <div>{room.image}</div> */}
+        <div>
+          <img src="Apartment.jpg" alt="" />
+        </div>
         <h1 className="room-title">{room.title}</h1>
         <p className="room-description">{room.description}</p>
         <div className="room-category">
@@ -50,12 +54,15 @@ const Home = () => {
       </div>
     ));
   return (
-    <div>
-      <div className="category-title">Rooms</div>
-      <div className="card-container">{roomCards}</div>
-
-      <div className="category-title">Apartments</div>
-      <div className="card-container">{apartmentCards}</div>
+    <div className="all">
+      <div className="rooms">
+        <div className="category-title">Rooms</div>
+        <div className="card-container">{roomCards}</div>
+      </div>
+      <div className="apart">
+        <div className="category-title">Apartments</div>
+        <div className="card-container">{apartmentCards}</div>
+      </div>
     </div>
   );
 };

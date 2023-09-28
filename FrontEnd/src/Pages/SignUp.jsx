@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import Axios from "axios";
+import "../Styles/SignUp.css";
 
 const SignUp = () => {
   const [values, setValues] = useState({
     full_name: "",
     email: "",
     contact_number: "",
+    address: "",
     password: "",
   });
 
@@ -50,6 +52,10 @@ const SignUp = () => {
       errors.full_name = "Name is required";
     }
 
+    if (!formValues.address.trim()) {
+      errors.address = "Name is required";
+    }
+
     // Validate email
     if (!formValues.email.trim()) {
       errors.email = "Email is required";
@@ -83,8 +89,9 @@ const SignUp = () => {
   };
 
   return (
-    <div>
+    <div className="all">
       <form onSubmit={handleSubmit}>
+        <div>Sign-Up</div>
         <div>
           <label>Name:</label>
           <input
@@ -123,6 +130,20 @@ const SignUp = () => {
           />
           {errors.contact_number && (
             <span className="text-danger">{errors.contact_number}</span>
+          )}
+        </div>
+        <div>
+          <label>Address:</label>
+          <input
+            type="text"
+            name="address"
+            placeholder="Address"
+            autoComplete="off"
+            onChange={handleChange}
+            value={values.address}
+          />
+          {errors.address && (
+            <span className="text-danger">{errors.address}</span>
           )}
         </div>
         <div>
